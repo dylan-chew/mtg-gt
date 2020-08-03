@@ -1,14 +1,20 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab2.css';
+import React from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import ExploreContainer from "../components/ExploreContainer";
+import "./AddGame.css";
 
-const Tab2: React.FC = () => {
+const AddGameTab: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 2</IonTitle>
+          <IonTitle>Add Game</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -23,4 +29,4 @@ const Tab2: React.FC = () => {
   );
 };
 
-export default Tab2;
+export default AddGameTab;

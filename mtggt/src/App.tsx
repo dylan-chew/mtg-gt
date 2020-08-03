@@ -16,7 +16,7 @@ import {
   trophyOutline,
 } from "ionicons/icons";
 import Tab1 from "./pages/Tab1";
-import Tab2 from "./pages/Tab2";
+import AddGameTab from "./pages/AddGame";
 import Tab3 from "./pages/Tab3";
 
 /* Core CSS required for Ionic components to work properly */
@@ -44,7 +44,7 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route path="/tab1" component={Tab1} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
+          <Route path="/addgame" component={AddGameTab} exact={true} />
           <Route path="/tab3" component={Tab3} />
           <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
         </IonRouterOutlet>
@@ -53,7 +53,7 @@ const App: React.FC = () => (
             <IonIcon icon={trophyOutline} />
             <IonLabel>Games</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="addgametab" href="/addgame">
             <IonIcon icon={addCircleOutline} />
             <IonLabel>Add</IonLabel>
           </IonTabButton>
