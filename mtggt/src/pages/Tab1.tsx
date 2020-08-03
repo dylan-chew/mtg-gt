@@ -13,26 +13,46 @@ import { db } from "../firebaseConfig";
 const docId = "lkpq9C3GY3XGmSw2B8CO";
 
 const Tab1: React.FC = () => {
-  const [test, setTest] = useState({});
+  // define state for component
+  const [gamesList, setGamesList] = useState({});
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (docId) {
-      db.collection("games")
-        .doc(docId)
-        .get()
-        .then((gamesList) => {
-          if (gamesList.exists) {
-            setTest(gamesList.data());
-          } else {
-            console.log("no list");
-          }
-        })
-        .catch(() => setError("grocery-list-get-fail"));
-    }
-  }, [test, setTest]);
+  const getData = (callback: (data: any) => void) => {
+    db.collection("games")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((game) => {
+          console.log(game.data());
+          callback(game);
+        });
+      });
+  };
 
-  console.log(test);
+  useEffect(() => {
+    console.log("getting games data...");
+
+    getData((data) => {
+      console.log(data);
+
+      setGamesList(data);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   if (docId) {
+  //     db.collection("games")
+  //       .doc(docId)
+  //       .get()
+  //       .then((gamesList) => {
+  //         if (gamesList.exists) {
+  //           setTest(gamesList.data());
+  //         } else {
+  //           console.log("no list");
+  //         }
+  //       })
+  //       .catch(() => setError("grocery-list-get-fail"));
+  //   }
+  // }, [test, setTest]);
 
   return (
     <IonPage>
