@@ -1,0 +1,7 @@
+{
+  "name": "mtggt",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
