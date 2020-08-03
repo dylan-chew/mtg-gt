@@ -5,8 +5,13 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonList,
+  IonItem,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import "./Tab1.css";
 import { db } from "../firebaseConfig";
 
@@ -14,17 +19,18 @@ const docId = "lkpq9C3GY3XGmSw2B8CO";
 
 const Tab1: React.FC = () => {
   // define state for component
-  const [gamesList, setGamesList] = useState({});
+  const [gamesList, setGamesList] = useState([]);
   const [error, setError] = useState("");
 
   const getData = (callback: (data: any) => void) => {
+    let gamesArray: [] = [];
     db.collection("games")
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((game) => {
-          console.log(game.data());
-          callback(game);
+          gamesArray.push(game.data());
         });
+        callback(gamesArray);
       });
   };
 
@@ -32,27 +38,19 @@ const Tab1: React.FC = () => {
     console.log("getting games data...");
 
     getData((data) => {
-      console.log(data);
-
       setGamesList(data);
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (docId) {
-  //     db.collection("games")
-  //       .doc(docId)
-  //       .get()
-  //       .then((gamesList) => {
-  //         if (gamesList.exists) {
-  //           setTest(gamesList.data());
-  //         } else {
-  //           console.log("no list");
-  //         }
-  //       })
-  //       .catch(() => setError("grocery-list-get-fail"));
-  //   }
-  // }, [test, setTest]);
+  const convertTimestampToDate = (timestamp: any) => {
+    return new Date(timestamp * 1000).toLocaleDateString();
+  };
+
+  const getWinner = (i: number) => {
+    gamesList[i].players.forEach((player) => {
+      if (player.winner) return player.name;
+    });
+  };
 
   return (
     <IonPage>
@@ -62,12 +60,27 @@ const Tab1: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large"></IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Tab 1 page" />
+        <IonList>
+          {gamesList.map((game: any, i) => {
+            return (
+              <IonItem routerLink={`/`} key={i}>
+                <IonCard>
+                  <IonCardHeader>
+                    <IonCardSubtitle>
+                      {convertTimestampToDate(game.date.seconds)}
+                    </IonCardSubtitle>
+                    <IonCardTitle>
+                      Winner:{" "}
+                      {game.players.map((player: any) => {
+                        return player.winner ? player.name : "";
+                      })}
+                    </IonCardTitle>
+                  </IonCardHeader>
+                </IonCard>
+              </IonItem>
+            );
+          })}
+        </IonList>
       </IonContent>
     </IonPage>
   );
